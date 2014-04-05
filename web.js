@@ -7,7 +7,7 @@ app.use(logfmt.requestLogger());
 
 app.get('/', function(req, res) {
 
-   console.log("Hello");
+    res.send('Hello World!');
 });
 
 var port = Number(process.env.PORT || 5000);
