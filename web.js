@@ -31,5 +31,5 @@ console.log("Listening on " + port);
 http.createServer(function(request, response) {
     response.writeHeader(200, {"Content-Type": "text/html"});
     response.write(index);
-    response.close();
+    //response.close();
 }).listen(port);
