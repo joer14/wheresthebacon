@@ -1,17 +1,24 @@
 {
-  "name": "hackathon",
+  "name": "node-example",
   "version": "0.0.0",
   "description": "This example app is so cool.",
   "main": "web.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rahulpalamut/nodejs-app"
+  },
   "keywords": [
     "example",
     "heroku"
   ],
-  "author": "rahul joe tyler james",
-  "license": "GNU",
+  "author": "jane-doe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahulpalamut/nodejs-app"
+  },
   "dependencies": {
     "logfmt": "~1.1.2",
     "express": "~3.5.1"
