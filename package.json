@@ -24,6 +24,7 @@
     "express": "~3.5.1",
     "mongodb": "*",
     "mongoose": "*",
-    "lodash-node": "*"
+    "lodash-node": "*",
+    "twilio": "*"
   }
 }
