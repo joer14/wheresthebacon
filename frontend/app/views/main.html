@@ -1,0 +1,41 @@
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li class="active"><a ng-href="#">Home</a></li>
+    <li><a ng-href="#">About</a></li>
+    <li><a ng-href="#">Contact</a></li>
+  </ul>
+  <h3 class="text-muted">AngBacon</h3>
+</div>
+
+<div class="jumbotron">
+
+  <div ng-show="">
+  <h1>Where's the Bacon?</h1>
+  <p class="lead">
+    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
+    Find Bacon at UCSC.
+    <input type="text" ng-model="altLoc">
+  </p>
+  <p><a class="btn btn-lg btn-success" ng-click="geoLook()">Locate Bacon <span class="glyphicon glyphicon-screenshot"></span></a></p>
+
+  </div>
+</div>
+
+<div class="row marketing">
+  <h4>Why?</h4>
+  <p>
+    explaination here...
+  </p>
+
+  <h4>How? </h4>
+  <p>
+    We scrape UCSC's dining website using kimonolabs, store the data in Mongo DB...
+  </p>
+
+  <h4>Who?</h4>
+  <p>Tyler Smith, James Shedel, Rahul Palamuttam, Joe Rowley</p>
+</div>
+
+<div class="footer">
+  <p><span class="glyphicon glyphicon-heart"></span></p>
+</div>
