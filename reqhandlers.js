@@ -1,12 +1,13 @@
 var express = require('express');
+require('/usr/local/lib/node_modules/twilio');
 var app = express();
 
 app.get('/send',function(req,res){
 
     // These vars are your accountSid and authToken from twilio.com/user/account
 
-    var accountSid = 'AC832af666a512f7edf14851909c6976f9';
-    var authToken = "your-auth-token";
+    var accountSid = 'ACa20026a3bb9bf39fec1fd1527ecd8527';
+    var authToken = "6f2c24d375dc3173f13bee32686cd48b";
 
     var client = require('twilio')(accountSid, authToken);
 
@@ -15,7 +16,7 @@ app.get('/send',function(req,res){
     client.messages.create({
         body: args.message,
         to: args.to,
-        from: "+OUR_NUMBER", 
+        from: "+2406502344", 
     }, function(err, message) {
         if (err) {
             console.log(err);
@@ -40,8 +41,12 @@ app.get('/recv',function(req,res){
 app.get('/text',function(req,res){
 
     var url = require('url');
-    var query  = url.parse(request.url,true).query;
+    var query  = url.parse(req.url,true).query;
 
+    res.send(query);
     getClosest(query.location,query.food);
 });
 
+var server = app.listen(3000, function() {
+    console.log('Listening on port %d', server.address().port);
+});
