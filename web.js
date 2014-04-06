@@ -1,7 +1,7 @@
 //web.js
-// var express = require("express");
+var express = require("express");
 // var logfmt = require("logfmt");
-// var app = express();
+var app = express();
 
 // app.use(logfmt.requestLogger());
 
@@ -15,21 +15,35 @@
 
 //    console.log("Listening on " + port);
 // });
+
 var port = Number(process.env.PORT || 5000);
-var sys = require('sys'),
-    http = require('http'),
-    fs = require('fs'),
-    index;
+// var sys = require('sys'),
+//     http = require('http'),
+//     fs = require('fs'),
+//     index;
  
-fs.readFile('./index.html', function (err, data) {
-    if (err) {
-        throw err;
-    }
-    index = data;
+// fs.readFile('./index.html', function (err, data) {
+//     if (err) {
+//         throw err;
+//     }
+//     index = data;
+// });
+// console.log("Listening on " + port); 
+// http.createServer(function(request, response) {
+//     response.writeHeader(200, {"Content-Type": "text/html"});
+//     response.write(index);
+//     //response.close();
+// }).listen(port);
+
+var express = require('express'),
+    app = express.createServer();
+
+app.configure(function(){
+  app.use(express.static(__dirname + '/static'));
 });
-console.log("Listening on " + port); 
-http.createServer(function(request, response) {
-    response.writeHeader(200, {"Content-Type": "text/html"});
-    response.write(index);
-    //response.close();
-}).listen(port);
+
+app.get('/', function(req, res){
+  res.sendfile(__dirname + '/index.html');
+});
+
+app.listen(port);
