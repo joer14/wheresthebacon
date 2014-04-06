@@ -27,6 +27,79 @@ function whichmeal(){
 	else return 'lunch'		
 }
 
+if (typeof Number.prototype.toRad == 'undefined') {
+  Number.prototype.toRad = function() {
+    return this * Math.PI / 180;
+  }
+}
+
+function geolocation(lat,lon){
+	this.lat = lat;
+	this.lon = lon;
+}
+
+//matches dining hall name to GPS coordinate
+function fetchLocation(loc){
+	var dhL;
+
+	console.log("from fetchLocation, loc is:" + loc);
+	if (loc == "crown") {
+		 dhL = new geolocation(36.999974688794,-122.05444693565);
+	}
+
+	if (loc == "merril"){
+		dhL = new geolocation(36.999974688794,-122.05444693565);
+	}
+
+	if (loc == "cowell"){
+		dhL = new geolocation(36.996991744785,-122.0530629158);
+	}
+
+	if (loc == "stevenson"){
+		dhL = new geolocation(36.996991744785,-122.0530629158);
+	}
+
+	if (loc == "porter"){
+		dhL = new geolocation(36.994365371902,-122.06584632396);
+	}
+	if (loc == "kresge"){
+		dhL = new geolocation(36.994365371902,-122.06584632396);
+	}
+	if (loc == "eight"){
+		dhL = new geolocation(36.991587873187,-122.06532329321);
+	}
+	if (loc == "oakes"){
+		dhL = new geolocation(36.991587873187,-122.06532329321);
+	}
+	if (loc == "nine"){
+		dhL = new geolocation(37.001093932027,-122.05775812268);
+	}
+	if (loc == "ten"){
+		dhL = new geolocation(37.001093932027,-122.05775812268);
+	}
+	return dhL;
+}
+
+
+//calculates distance between two geolocation objects using the haversine formula
+//see http://www.movable-type.co.uk/scripts/latlong.html
+function calculateDistance(loc1,loc2) {
+	var R = 6371;
+	console.log(loc1);
+	console.log(loc2);
+	var dLat = (loc2.lat - loc1.lat).toRad();
+	var dLon = (loc2.lon - loc1.lon).toRad();
+	var lat1 = loc1.lat.toRad();
+	var lat2 = loc2.lat.toRad();
+
+	//haversine formula
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c;
+	return d;
+}
+
+
 var date = new Date()
 
 var db = mongoose.connection;
@@ -138,19 +211,49 @@ app.get('/recv',function(req,res){
     var message = req.body.Body;
     var from = req.body.From;
     var tokens = message.split(" ");
-    var location = tokens[0].toLowerCase();
+    var loc = tokens[0].toLowerCase();
     var food = tokens[1].toLowerCase();
 
-    getClosest(location,food);
+    getClosest(loc,food);
 });
 
 app.get('/text',function(req,res){
 
     var url = require('url');
-    var query = url.parse(request.url,true).query;
+    var query = url.parse(req.url,true).query;
 
-    getClosest(query.location,query.food);
+    res.send("?"+getClosest(query.loc,query.food));
 });
+
+function getClosest(loc,food){
+	var dh = loc;
+	console.log("food: " + food);
+	console.log("loc: " + loc);
+	var dhs = Meal.find({'fooditem':food, 'meals': whichmeal()}, 'dininghalls');
+
+	//var dhs = ["eight","nine","porter"];
+
+	var lowest;
+	var lowestDH;
+
+	//console.log(fetchLocation(dh));
+
+	var lowest = calculateDistance(fetchLocation(dh),fetchLocation(dhs[0]));
+
+	for (var i = 0; i < dhs.length; i++) {
+		//console.log("i is: "+i);
+		//console.log("comparing "+JSON.stringify(fetchLocation(dh)) + "and "+ JSON.stringify(fetchLocation(dhs[i])));
+		distance = calculateDistance(fetchLocation(dh),fetchLocation(dhs[i]));
+		//console.log("distance is: " + distance);
+		if (distance < lowest) {
+			lowest = distance;
+			lowestDH = dhs[i];
+		}
+	}
+	//console.log("lowestDH :" + lowestDH);
+	return lowestDH;
+}
+
 
 app.get('/joe', function(req, res){
 	//sending maybe food, maybe location
