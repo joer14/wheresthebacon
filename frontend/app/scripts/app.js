@@ -5,6 +5,7 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
+    'leaflet-directive',
     'ngRoute'
   ])
   .config(function ($routeProvider) {
@@ -15,6 +16,10 @@ angular
       })
       .when('/test', {
         templateUrl: 'views/tools.html',
+        controller: 'MainCtrl'
+      })
+      .when('/map', {
+        templateUrl: 'views/map.html',
         controller: 'MainCtrl'
       })
       .otherwise({
