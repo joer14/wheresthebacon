@@ -11,8 +11,8 @@ db.once('open', function callback () {
 
   var foodSchema = mongoose.Schema({
       fooditem: String,
-      meals: [],
-      dininghalls: []
+      meals: String,
+      dininghalls: String
   })
 
   foodSchema.methods.registerMeal = function (food) {
@@ -53,7 +53,7 @@ function httpGet(theUrl, meal, dininghall)
    					console.log('I found' + food)
   				})*/
     				var fooditem = new Meal({ 
-    					fooditem: collection[i].Item.text,
+    					fooditem: collection[i].Item.text.toLowerCase(),
     					meals: meal,
     					dininghalls: dininghall 
     				});
